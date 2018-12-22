@@ -1,8 +1,123 @@
 <html>
     <head>
         <title>チュウニズムゲージ量計算機 On Web</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1.0">
+        <style type="text/css">
+            body{
+                text-align: center;
+                background-color: #f8f8f8;
+            }
+            input{
+                width: 125px;
+                height:38px;
+                font-size: 150%;
+                text-align: center;
+            }
+            .inputcap{
+                font-size: 170%;
+            }
+        </style>
+        <script language="JavaScript" type="text/javascript">
+            function onCalc(){
+                var notes = document.calcbody.notes.value;
+                var bonusStart = document.calcbody.bonusStart.value;
+                var bonusEnd = document.calcbody.bonusEnd.value;
+                var combo = document.calcbody.combo.value;
+                var cBonus = document.calcbody.cBonus.value;
+                var risingPer = document.calcbody.risingPer.value;
+
+                var timesBonus = notes / combo;
+                var amountBonus =  cBonus * parseInt(timesBonus);
+                var risingPercent =  risingPer / 100;
+                var gaugeNormal = 60000 * risingPercent;
+                var amountGauge = parseInt(gaugeNormal) + parseInt(amountBonus) + parseInt(bonusStart) + parseInt(bonusEnd);
+
+                var gaugeNumber = 0;
+                var vgAmount = 0;
+
+                while(vgAmount <= amountGauge){
+                    gaugeNumber = gaugeNumber + 1;
+                    vgAmount = vgAmount + 10000 + (2000 * gaugeNumber);
+                }
+
+                if(vgAmount = amountGauge){
+                    gaunutxt = document.getElementById("GauNu_txt");
+                    gaunutxt.innerText = '理論上到達ゲージ本数:' + (gaugeNumber - 1) + '本';
+                }
+                else{
+                    gaunutxt = document.getElementById("GauNu_txt");
+                    gaunutxt.innerText = '理論上到達ゲージ本数:' + gaugeNumber + '本';
+                }
+
+                notestxt = document.getElementById("Notes_txt");
+                notestxt.innerText = 'ノーツ数:' + notes + 'Notes';
+                bonustxt = document.getElementById("Bonus_txt");
+                bonustxt.innerText = 'ボーナス:' + combo + 'コンボ毎に +' + cBonus;
+                gaurstxt = document.getElementById("GauRs_txt");
+                gaurstxt.innerText = 'ゲージ上昇率:' + risingPer + '%';
+                gauamtxt = document.getElementById("GauAm_txt");
+                gauamtxt.innerText = 'ゲージ増加量理論値:' + amountGauge;
+            }
+        </script>
     </head>
     <body>
-        <p>工事中</p>
+        <h1>チュウニズムゲージ量計算機 On Web</h1>
+        <p>下の各パラメータに数値を入力してください。</p><br>
+        <p>注意:「J-Critical時にボーナス」(勇気のしるし等)の場合、<span style="font-weight: bold;">1コンボ毎</span>のボーナスという判定になります。</p>
+
+        <br>
+
+        <form name="calcbody">
+
+            <span class="inputcap">ノーツ数:</span><input type="text" name="notes"><span class="inputcap">Notes</span>
+
+            <br>
+            <br>
+
+            <span class="inputcap">開始時のボーナス量: +</span><input type="text" name="bonusStart">
+
+            <br>
+            <br>
+
+            <span class="inputcap">終了時のボーナス量: +</span><input type="text" name="bonusEnd">
+
+            <br>
+            <br>
+
+            <span class="inputcap">コンボ毎ボーナス:</span><input type="text" name="combo"><span class="inputcap">コンボごとに +</span><input type="text" name="cBonus">
+
+            <br>
+            <br>
+
+            <span class="inputcap">ゲージ上昇率:</span><input type="text" name="risingPer"><span class="inputcap">%</span>
+
+            <br>
+            <br>
+
+            <input type="button" value="計算する" onclick="onCalc();">
+
+        </form>
+
+        <br>
+        <br>
+        
+        <span id="Notes_txt" class="inputcap"></span>
+
+        <br>
+
+        <span id="Bonus_txt" class="inputcap"></span>
+
+        <br>
+
+        <span id="GauRs_txt" class="inputcap"></span>
+
+        <br>
+
+        <span id="GauAm_txt" class="inputcap"></span>
+
+        <br>
+
+        <span id="GauNu_txt" class="inputcap"></span>
+
     </body>
 </html>
